@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工具羅盤 Tool Compass | 杜信龍 Masa Tu</title>
+<meta name="description" content="杜信龍 (Masa Hsin-Lung Tu) 的整合工具入口：台語學習工具、台語書、詞典、台語遊戲、財務、寫作、精實管理與個人系統。">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --surface-2:#f0ede6; --text:#1d1b18; --muted:#6b665c;
+  --line:#e2ddd2; --accent:#b4441f; --accent-soft:#f6e3da; --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+  --c-tg:#b4441f; --c-book:#7a4fa3; --c-dict:#2f6f9f; --c-game:#2e8a57; --c-mind:#a0762a;
+  --c-fin:#9b2f4d; --c-pol:#3f4f8f; --c-hist:#8a5a2b; --c-write:#3e6db5; --c-lean:#4a7d74; --c-me:#6a6a6a;
+}
+:root[data-theme="dark"]{
+  --bg:#141311; --surface:#1d1c19; --surface-2:#26241f; --text:#ece8df; --muted:#a19b8f;
+  --line:#34312b; --accent:#ec7a50; --accent-soft:#3a2219; --shadow:0 1px 2px rgba(0,0,0,.4);
+  --c-tg:#ec7a50; --c-book:#b48ae0; --c-dict:#6fb0e0; --c-game:#5cc78a; --c-mind:#d9ac5a;
+  --c-fin:#e06b8e; --c-pol:#9aa8e8; --c-hist:#d6a46e; --c-write:#82a8ec; --c-lean:#7fc0b4; --c-me:#b0b0b0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.mono{width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800}
+.brand b{display:block;font-size:15px;white-space:nowrap}
+.brand small{display:block;font-size:12px;color:var(--muted);white-space:nowrap}
+.spacer{flex:1}
+.pill{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 10px;white-space:nowrap}
+.btn{font:inherit;font-size:13px;background:var(--surface);color:var(--text);border:1px solid var(--line);
+  border-radius:8px;padding:6px 10px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+
+/* hero */
+.hero{padding:44px 0 20px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.2;margin:8px 0 12px;letter-spacing:-.01em}
+.hero p{max-width:760px;color:var(--muted);margin:0}
+
+/* controls */
+.controls{position:sticky;top:60px;z-index:15;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line)}
+.search{width:100%;font:inherit;font-size:15px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--surface);color:var(--text);outline:none}
+.search:focus{border-color:var(--accent)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{font:inherit;font-size:13px;flex:none;border:1px solid var(--line);background:var(--surface);color:var(--text);
+  border-radius:99px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip .n{opacity:.6;margin-left:4px;font-variant-numeric:tabular-nums}
+
+/* sections */
+section.grp{padding:34px 0 6px;scroll-margin-top:150px}
+.grp-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.grp-no{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--gc);font-weight:700}
+.grp-head h2{margin:0;font-size:22px}
+.grp-count{font-size:12px;color:var(--muted);margin-left:auto}
+.grp-sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+
+.card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;padding:16px 16px 14px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s}
+.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gc)}
+.card:hover{transform:translateY(-2px);border-color:var(--gc)}
+.card .ico{font-size:22px;line-height:1}
+.card .tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gc);font-weight:700;margin-top:10px}
+.card h3{font-size:16px;margin:4px 0 6px;line-height:1.35}
+.card p{font-size:13.5px;color:var(--muted);margin:0 0 14px;flex:1}
+.card .acts{display:flex;gap:8px}
+.card .open{flex:1;text-align:center;background:var(--gc);color:#fff;border-color:transparent;font-weight:600}
+:root[data-theme="dark"] .card .open{color:#141311}
+.card .open:hover{filter:brightness(1.08)}
+.empty{display:none;text-align:center;color:var(--muted);padding:60px 0}
+
+footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2e8a57;margin-right:6px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;
+  background:var(--text);color:var(--bg);padding:8px 16px;border-radius:99px;font-size:13px;transition:.2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:640px){
+  .brand small,.pill{display:none}
+  .hero{padding:28px 0 14px}
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#">
+      <span class="mono">M</span>
+      <span><b>Masa Hsin-Lung Tu</b><small>工具羅盤 · Tool Compass</small></span>
+    </a>
+    <span class="spacer"></span>
+    <span class="pill" id="total"></span>
+    <button class="btn" id="theme" type="button" aria-label="切換深淺色">🌙</button>
+    <a class="btn" href="https://github.com/SinLiongToo" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Integrated Tool Compass</div>
+    <h1>杜信龍 整合工具入口</h1>
+    <p>台語學習工具、台語電子書與詞典、台語互動遊戲，到財務、寫作、精實管理與個人系統 ——
+      所有自製網頁工具集中在一頁，依用途分類，可搜尋、可篩選。</p>
+  </div>
+
+  <div class="controls">
+    <input class="search" id="q" type="search" placeholder="搜尋工具名稱、說明或標籤… (例：捷運、詞典、Lean)" autocomplete="off">
+    <div class="chips" id="chips" role="toolbar" aria-label="分類篩選"></div>
+  </div>
+
+  <div id="sections"></div>
+  <div class="empty" id="empty">找不到符合的工具 🤔</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 杜信龍 Masa Hsin-Lung Tu · 跨界・鏈結</span>
+    <span class="spacer"></span>
+    <span><span class="dot"></span><span id="active"></span></span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">網址已複製至剪貼簿！</div>
+
+<script>
+const B = "https://sinliongtoo.github.io/";
+
+const GROUPS = [
+  { id:"tg",    no:"01",   color:"--c-tg",    title:"台語學習工具", en:"Taigi Tools",
+    sub:"變調、數字、語音合成與教具：台語學習的基本功。" },
+  { id:"book",  no:"02-A", color:"--c-book",  title:"台語書", en:"Taigi E-books",
+    sub:"數位電子書：台語白話字與漢字對照，部分內建詞典模式。" },
+  { id:"dict",  no:"02-B", color:"--c-dict",  title:"字典 · 詞典", en:"Dictionary",
+    sub:"從作品詞句擷取整理的台語詞典。" },
+  { id:"game",  no:"03",   color:"--c-game",  title:"台語遊戲", en:"Taigi Games",
+    sub:"搭火車、坐捷運、賽車、拔河、打地鼠 —— 邊玩邊學台語。" },
+  { id:"mind",  no:"04",   color:"--c-mind",  title:"遊戲 · 心智訓練", en:"Games & Mind Training",
+    sub:"魔術方塊、高壓決策與數獨。" },
+  { id:"pol",   no:"05",   color:"--c-pol",   title:"政治", en:"Politics",
+    sub:"官員財產申報大富翁與台海動態羅盤。" },
+  { id:"hist",  no:"06",   color:"--c-hist",  title:"歷史", en:"History",
+    sub:"台灣四百年：統治者、國家範圍與族群人口的演變。" },
+  { id:"fin",   no:"07",   color:"--c-fin",   title:"財務", en:"Finance",
+    sub:"股票回檔檢核。" },
+  { id:"write", no:"08",   color:"--c-write", title:"寫作 · 語言學習", en:"Writing & Language",
+    sub:"寫作方法論、英文學習卡與有聲書圖書館。" },
+  { id:"lean",  no:"09",   color:"--c-lean",  title:"精實管理 · 生產力", en:"Lean & Productivity",
+    sub:"Lean Six Sigma、專案甘特圖、ORID 與簡報圖表。" },
+  { id:"me",    no:"10",   color:"--c-me",    title:"個人 · 健康", en:"Personal",
+    sub:"履歷、工作原則、緊急應變與健康數據。" },
+];
+
+const TOOLS = [
+  // 01 台語學習工具
+  { g:"tg", ico:"🍜", tag:"Food · 5-in-1", t:"台灣傳統美食台語五合一互動教具", d:"以傳統食食與配料為主題的台語互動教具。", u:"thoanthong_chiahsit_phoeliau/" },
+  { g:"tg", ico:"🎵", tag:"Tone Sandhi", t:"台語羅馬字變調訓練器", d:"Taiwanese Lô-má-jī Tone Sandhi Trainer，練習連音變調規則。", u:"Taiwanese-L--m--j-Tone-Sandhi-Tool/" },
+  { g:"tg", ico:"📐", tag:"Shape & Number", t:"形數羅盤 — 台語數學探索", d:"Shape & Number Compass，用台語認識形狀與數學。", u:"Taigi_hengchong_sngsut/" },
+  { g:"tg", ico:"🔢", tag:"Numerals", t:"台語數字 1-10 輕鬆學", d:"數字的文讀與白讀（Literary & Colloquial Readings）。", u:"Literary-and-Colloquial-Readings-of-Numerals/" },
+  { g:"tg", ico:"🔊", tag:"TTS", t:"台語文字轉語音", d:"輸入台語文字，產生台語語音。", u:"taigi-tts/" },
+  { g:"tg", ico:"🧰", tag:"Next-Gen Suite", t:"TWCD 台語數位工具箱", d:"Next-Gen Suite，整合多項台語數位工具。", u:"twcd-suite/" },
+
+  // 02-A 台語書
+  { g:"book", ico:"📕", tag:"Chhit-jī-gia̍t", t:"七字孽 電子冊", d:"杜信龍《七字孽》Tiān-chú-chheh 數位版。", u:"Ebook_Chhit-ji-giat-siongsinpan_chhiukia/" },
+  { g:"book", ico:"🛡️", tag:"Essays · 台-華", t:"護國 — 評論集（台-華）", d:"2014–2026 年民報、自由時報 240 篇政經國安、社會改革、母語復振評論，支援台語詞典模式。", u:"hok_kok_ebook/" },
+  { g:"book", ico:"🩺", tag:"1917 · Medical", t:"1917 內外科看護學", d:"全書台語白話字 AI OCR、全漢字逐段對照、原書解剖插圖，附醫學台英漢三語辭典。", u:"laigoakho_Tejinsiu_ebook/#/" },
+
+  // 02-B 字典
+  { g:"dict", ico:"📖", tag:"Tâi-gí Sû-tián", t:"台語詞典（七字孽詞句）", d:"自杜信龍《七字孽》擷取詞句整理而成的台語詞典。", u:"CHHITJIA_JITIAN/" },
+
+  // 03 台語遊戲
+  { g:"game", ico:"🚆", tag:"Railway", t:"台灣鐵路四界行", d:"坐火車環島，歡喜學台語（Tâi-oân Hoé-chhia 冒險！）。", u:"Taiwanese-Railway-Adventure/" },
+  { g:"game", ico:"🚇", tag:"Kaohsiung KRT", t:"高雄捷運四界走", d:"搭高雄捷運認識站名與台語。", u:"Taiwanese_KRT_Adventure/" },
+  { g:"game", ico:"🚈", tag:"Taichung MRT", t:"台中捷運四界行", d:"Tâi-tiong Tsia̍t-ūn 冒險，邊坐邊學。", u:"Taitiong_MRT/" },
+  { g:"game", ico:"🏛️", tag:"Scenic & Museum", t:"景點博物館四界行", d:"互動地圖、詞彙牆與台語聽力挑戰。", u:"Taiwanese-Scenic-Museum-Adventure/" },
+  { g:"game", ico:"🍠", tag:"Adventure", t:"番薯仔大冒險", d:"番薯仔闖關，學台語。", u:"hantsia-taigi/" },
+  { g:"game", ico:"🗣️", tag:"Speaking", t:"番薯仔講台語", d:"跟番薯仔一起開口講台語。", u:"hantsia-kong-taigi/" },
+  { g:"game", ico:"🏎️", tag:"Air Racer", t:"台語賽車衝衝衝！", d:"空氣噴氣賽車：跳、衝、黏，收集台語字卡、學連音變調。", u:"tg-air-racer/" },
+  { g:"game", ico:"🪢", tag:"Quiz Battle", t:"台語搶答拔河", d:"雙人搶答拔河，比快比準。", u:"taigi-tug-of-war/" },
+  { g:"game", ico:"🔨", tag:"Phonetics", t:"台語子母音歡樂派對", d:"打地鼠 ＆ 3D 魔術方塊，練子音與母音。", u:"taigi-phonetics-game/" },
+  { g:"game", ico:"✖️", tag:"Multiplication", t:"歡喜學九九合數", d:"用台語背九九乘法。", u:"taigi-multiplication-app/" },
+
+  // 04 遊戲 · 心智訓練
+  { g:"pol", ico:"🎲", tag:"Monopoly", t:"官員財產申報大富翁", d:"立委、縣市長、議員的財產申報資料大富翁（siu-chèng 大富翁）。", u:"Monopoly-legislator-mayor_Parliament/" },
+  { g:"mind", ico:"🧊", tag:"Rubik's Cube 3D", t:"魔術方塊大師", d:"教、玩、做一體化的 3D 魔術方塊平台。", u:"rubiks-cube-3d/" },
+  { g:"mind", ico:"🧠", tag:"Mind Training", t:"CogniStress 三合一訓練", d:"高壓決策、專注數獨、等高線地形判讀。", u:"cogni-stress-trainer/" },
+
+  // 05 財務 · 時事 · 歷史
+  { g:"fin", ico:"📉", tag:"FinTech", t:"股票回檔檢核工具", d:"FINTECH Plan Check：股價下跌（Stock Drop）檢視。", u:"FINTECH_plan_check/tools/stock-drop/index.html" },
+  { g:"pol", ico:"🧭", tag:"Strait Watch", t:"台海動態羅盤", d:"Strait Watch Compass，追蹤台海動態。", u:"strait-watch-compass/" },
+  { g:"hist", ico:"🗺️", tag:"History 1600–2026", t:"台灣四百年", d:"統治者、國家掌握範圍與族群人口動畫（雙語）。", u:"taiwan-400/" },
+
+  // 06 寫作 · 語言學習
+  { g:"write", ico:"✍️", tag:"OmniWrite", t:"OmniWrite 寫作方法論工作台", d:"Cross-Field Writing Methodology Studio，跨領域寫作方法總合。", u:"omniwrite-methodology-studio/" },
+  { g:"write", ico:"🌐", tag:"G-Translate", t:"Google 翻譯詞庫學習卡", d:"把 Google 翻譯詞庫變成互動學習卡牌。", u:"google-translate-learning/" },
+  { g:"write", ico:"💬", tag:"English", t:"Gemini & ChatGPT 英文怎麼說", d:"雙核心互動英文學習工具。", u:"englishfromgemnina/" },
+  { g:"write", ico:"🎧", tag:"Audiobook", t:"有聲書數位圖書館", d:"Audiobook Digital Bookshelf & Knowledge Graph。", u:"audiobook_md_learn/" },
+
+  // 07 精實管理 · 生產力
+  { g:"lean", ico:"🛠️", tag:"Lean Workspace", t:"Lean Expert Workspace", d:"Masa 的精實專家工作區。", u:"LeanExpertWorkspace/" },
+  { g:"lean", ico:"📊", tag:"Lean Six Sigma", t:"精實六標準差羅盤", d:"Lean Six Sigma Compass，DMAIC 工具導航。", u:"Lean-Six-Sigma-Compass/" },
+  { g:"lean", ico:"📅", tag:"PRD & Gantt", t:"Dynamic PRD & Gantt Generator", d:"甘特圖轉 Markdown，計畫 vs 實際時程比較。", u:"WEBAPP_project-gantt-chart-to-makedown-file/" },
+  { g:"lean", ico:"🔄", tag:"ORID", t:"焦點討論與決策羅盤", d:"ORID Mindset & Decision Compass，回顧與決策。", u:"fspire_ordid_retrospective/" },
+  { g:"lean", ico:"📈", tag:"PPT Diagram", t:"PPT 圖表產生器", d:"PPT Diagram Studio，快速產生簡報趨勢線與圖表。", u:"ppt-trend-line/" },
+
+  // 08 個人 · 健康
+  { g:"me", ico:"👤", tag:"Portfolio · CV", t:"杜信龍 個人專業網站", d:"半導體/射頻/NPI 工程、台語作家與詩人、超馬越野跑者的跨界履歷。", u:"kojin_kilok_CV/" },
+  { g:"me", ico:"🃏", tag:"Principles", t:"工作的管見 — 工作原則卡牌", d:"My Two Cents：職場生存與成長的避坑指南。", u:"my_priciple_card/" },
+  { g:"me", ico:"🚨", tag:"Emergency", t:"全方位緊急應變小卡", d:"緊急狀況的應變流程與聯絡資訊卡。", u:"Emergence_card/" },
+  { g:"me", ico:"⌚", tag:"Garmin Health", t:"Garmin 健康儀表板", d:"Garmin Connect 健康與運動數據儀表板。", u:"GARMIN_CONtoNET_TRACK/garmin_health_dashboard.html" },
+];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let active = "all";
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const match = x => !q || [x.t, x.d, x.tag].join(" ").toLowerCase().includes(q);
+  let shown = 0;
+  $("#sections").innerHTML = GROUPS.map(g => {
+    if (active !== "all" && active !== g.id) return "";
+    const items = TOOLS.filter(x => x.g === g.id && match(x));
+    if (!items.length) return "";
+    shown += items.length;
+    return `<section class="grp" id="${g.id}" style="--gc:var(${g.color})">
+      <div class="grp-head"><span class="grp-no">${g.no}</span><h2>${g.title}</h2>
+        <span class="grp-count">${g.en} · ${items.length} Tools</span></div>
+      <p class="grp-sub">${g.sub}</p>
+      <div class="grid">${items.map(x => {
+        const url = B + x.u;
+        return `<article class="card"><span class="ico">${x.ico}</span>
+          <div class="tag">${esc(x.tag)}</div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>
+          <div class="acts"><a class="btn open" href="${url}" target="_blank" rel="noopener">開啟站台 ↗</a>
+          <button class="btn copy" type="button" data-url="${url}">複製網址</button></div></article>`;
+      }).join("")}</div></section>`;
+  }).join("");
+  $("#empty").style.display = shown ? "none" : "block";
+}
+
+function chips(){
+  const all = [{id:"all", title:"全部"}].concat(GROUPS);
+  $("#chips").innerHTML = all.map(g => {
+    const n = g.id === "all" ? TOOLS.length : TOOLS.filter(x => x.g === g.id).length;
+    return `<button class="chip" type="button" data-g="${g.id}" aria-pressed="${g.id === active}">${g.title}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  active = b.dataset.g; chips(); render();
+});
+$("#q").addEventListener("input", render);
+$("#sections").addEventListener("click", async e => {
+  const b = e.target.closest(".copy"); if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.url); } catch { prompt("複製網址：", b.dataset.url); return; }
+  const t = $("#toast"); t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1600);
+});
+
+// theme
+const root = document.documentElement;
+function setTheme(m){ root.dataset.theme = m; $("#theme").textContent = m === "dark" ? "☀️" : "🌙";
+  try { localStorage.setItem("theme", m); } catch {} }
+let saved = null; try { saved = localStorage.getItem("theme"); } catch {}
+setTheme(saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+$("#theme").addEventListener("click", () => setTheme(root.dataset.theme === "dark" ? "light" : "dark"));
+
+$("#total").textContent = `${TOOLS.length} 項`;
+$("#active").textContent = `${TOOLS.length} Tools Active`;
+chips(); render();
+</script>
+</body>
+</html>
