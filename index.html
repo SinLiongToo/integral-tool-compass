@@ -205,6 +205,7 @@ const TOOLS = [
   { g:"fin", ico:"📉", tag:"FinTech", t:"股票回檔檢核工具", d:"FINTECH Plan Check：股價下跌（Stock Drop）檢視。", u:"FINTECH_plan_check/tools/stock-drop/index.html" },
   { g:"pol", ico:"🧭", tag:"Strait Watch", t:"台海動態羅盤", d:"Strait Watch Compass，追蹤台海動態。", u:"strait-watch-compass/" },
   { g:"hist", ico:"🗺️", tag:"History 1600–2026", t:"台灣四百年", d:"統治者、國家掌握範圍與族群人口動畫（雙語）。", u:"taiwan-400/" },
+  { g:"hist", ico:"🌳", tag:"WebGIS · Heritage Trees", t:"搜揣樹王公 CHHIAU-CHHŌE", d:"臺灣受保護樹木與珍貴老樹 WebGIS：整合全台超過萬筆列管老樹的互動地圖。", u:"https://tree-gis-location.pages.dev/" },
 
   // 06 寫作 · 語言學習
   { g:"write", ico:"✍️", tag:"OmniWrite", t:"OmniWrite 寫作方法論工作台", d:"Cross-Field Writing Methodology Studio，跨領域寫作方法總合。", u:"omniwrite-methodology-studio/" },
@@ -245,7 +246,7 @@ function render(){
         <span class="grp-count">${g.en} · ${items.length} Tools</span></div>
       <p class="grp-sub">${g.sub}</p>
       <div class="grid">${items.map(x => {
-        const url = B + x.u;
+        const url = /^https?:/.test(x.u) ? x.u : B + x.u;
         return `<article class="card"><span class="ico">${x.ico}</span>
           <div class="tag">${esc(x.tag)}</div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>
           <div class="acts"><a class="btn open" href="${url}" target="_blank" rel="noopener">開啟站台 ↗</a>
