@@ -45,6 +45,7 @@ header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--b
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .hero h1{font-size:clamp(28px,5vw,44px);line-height:1.2;margin:8px 0 12px;letter-spacing:-.01em}
 .hero p{max-width:760px;color:var(--muted);margin:0}
+.updated{margin-top:12px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 /* controls */
 .controls{position:sticky;top:60px;z-index:15;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line)}
@@ -117,6 +118,7 @@ footer .wrap{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
     <h1>杜信龍 整合工具入口</h1>
     <p>台語學習工具、台語電子書與詞典、台語互動遊戲，到財務、寫作、精實管理與個人系統 ——
       所有自製網頁工具集中在一頁，依用途分類，可搜尋、可篩選。</p>
+    <div class="updated">🕒 最後更新：<time id="updated"></time></div>
   </div>
 
   <div class="controls">
@@ -289,6 +291,11 @@ $("#theme").addEventListener("click", () => setTheme(root.dataset.theme === "dar
 
 $("#total").textContent = `${TOOLS.length} 項`;
 $("#active").textContent = `${TOOLS.length} Tools Active`;
+// last update = page's Last-Modified (set by GitHub Pages on each deploy)
+const lm = new Date(document.lastModified);
+const pad = n => String(n).padStart(2, "0");
+$("#updated").dateTime = lm.toISOString();
+$("#updated").textContent = `${lm.getFullYear()}-${pad(lm.getMonth()+1)}-${pad(lm.getDate())} ${pad(lm.getHours())}:${pad(lm.getMinutes())}`;
 chips(); render();
 </script>
 </body>
