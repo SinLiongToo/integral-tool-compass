@@ -10,13 +10,13 @@
   --bg:#f6f4ef; --surface:#ffffff; --surface-2:#f0ede6; --text:#1d1b18; --muted:#6b665c;
   --line:#e2ddd2; --accent:#b4441f; --accent-soft:#f6e3da; --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
   --c-tg:#b4441f; --c-book:#7a4fa3; --c-dict:#2f6f9f; --c-game:#2e8a57; --c-mind:#a0762a;
-  --c-fin:#9b2f4d; --c-pol:#3f4f8f; --c-hist:#8a5a2b; --c-write:#3e6db5; --c-lean:#4a7d74; --c-me:#6a6a6a;
+  --c-fin:#9b2f4d; --c-pol:#3f4f8f; --c-hist:#8a5a2b; --c-write:#3e6db5; --c-lean:#4a7d74; --c-report:#b0567a; --c-me:#6a6a6a;
 }
 :root[data-theme="dark"]{
   --bg:#141311; --surface:#1d1c19; --surface-2:#26241f; --text:#ece8df; --muted:#a19b8f;
   --line:#34312b; --accent:#ec7a50; --accent-soft:#3a2219; --shadow:0 1px 2px rgba(0,0,0,.4);
   --c-tg:#ec7a50; --c-book:#b48ae0; --c-dict:#6fb0e0; --c-game:#5cc78a; --c-mind:#d9ac5a;
-  --c-fin:#e06b8e; --c-pol:#9aa8e8; --c-hist:#d6a46e; --c-write:#82a8ec; --c-lean:#7fc0b4; --c-me:#b0b0b0;
+  --c-fin:#e06b8e; --c-pol:#9aa8e8; --c-hist:#d6a46e; --c-write:#82a8ec; --c-lean:#7fc0b4; --c-report:#e591b4; --c-me:#b0b0b0;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -164,7 +164,9 @@ const GROUPS = [
     sub:"寫作方法論、英文學習卡與有聲書圖書館。" },
   { id:"lean",  no:"09",   color:"--c-lean",  title:"精實管理 · 生產力", en:"Lean & Productivity",
     sub:"Lean Six Sigma、專案甘特圖、ORID、簡報圖表與 AI 技能庫。" },
-  { id:"me",    no:"10",   color:"--c-me",    title:"個人 · 健康", en:"Personal",
+  { id:"report", no:"10",  color:"--c-report", title:"報告 · 圖卡製作", en:"Reports & Cards",
+    sub:"七字仔圖卡：漢字與羅馬字上下對應排版。" },
+  { id:"me",    no:"11",   color:"--c-me",    title:"個人 · 健康", en:"Personal",
     sub:"履歷、工作原則、緊急應變與健康數據。" },
 ];
 
@@ -231,7 +233,10 @@ const TOOLS = [
   { g:"lean", ico:"📈", tag:"PPT Diagram", t:"PPT 圖表產生器", d:"PPT Diagram Studio，快速產生簡報趨勢線與圖表。", u:"ppt-trend-line/" },
   { g:"lean", ico:"🗃️", tag:"Skill Hub", t:"SkillVault 技能庫", d:"Antigravity & Claude Code Skill Hub，整理與記錄 AI 工具技能。", u:"skill-record/" },
 
-  // 08 個人 · 健康
+  // 10 報告 · 圖卡製作
+  { g:"report", ico:"🎴", tag:"Chhit-jī-á Card", t:"七字仔圖卡產生器", d:"漢字・羅馬字上下對應的七字仔圖卡製作工具。", u:"chhit-ji-a-card/" },
+
+  // 11 個人 · 健康
   { g:"me", ico:"👤", tag:"Portfolio · CV", t:"杜信龍 個人專業網站", d:"半導體/射頻/NPI 工程、台語作家與詩人、超馬越野跑者的跨界履歷。", u:"kojin_kilok_CV/" },
   { g:"me", ico:"🃏", tag:"Principles", t:"工作的管見 — 工作原則卡牌", d:"My Two Cents：職場生存與成長的避坑指南。", u:"my_priciple_card/" },
   { g:"me", ico:"🚨", tag:"Emergency", t:"全方位緊急應變小卡", d:"緊急狀況的應變流程與聯絡資訊卡。", u:"Emergence_card/" },
